@@ -43,8 +43,6 @@ lazy val core = module("core")
   .dependsOn(logging)
   .settings(
     libraryDependencies ++= Seq(
-      "dev.optics" %% "monocle-core"  % monocleVersion,
-      "dev.optics" %% "monocle-macro" % monocleVersion,
       "org.typelevel" %% "kittens" % "3.5.0",
       "co.fs2" %% "fs2-io" % "3.11.0",
     )
