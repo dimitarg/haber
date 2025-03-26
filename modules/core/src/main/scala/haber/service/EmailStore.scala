@@ -60,15 +60,15 @@ object EmailStore:
       mailbox: Email,
       count: Int,
       from: Option[EmailMessage.Id]
-    ): Option[(List[EmailMessage], Option[EmailMessage])] =
+    ): Option[(Seq[EmailMessage], Option[EmailMessage])] =
       // lookup, worst case O(log(mailbox size)))
       val iter = from.fold(byMostRecent.values.iterator) { from =>
-        // TODO what operation allows to lookup key and take(count) simultaneously
+        // TODO is there an operation allows to lookup key and take(count) simultaneously
         if !byMostRecent.contains(from) then Iterator.empty[EmailMessage]
         else byMostRecent.valuesIteratorFrom(from)
       }
 
-      val result = iter.take(count + 1).toList
+      val result = iter.take(count + 1).toIndexedSeq
 
       if result.isEmpty && from.isDefined then
         // id not found
@@ -76,7 +76,8 @@ object EmailStore:
       else if result.size <= count then
         // last page
         (result, None).some
-      else (result.init, result.lastOption).some
+      //
+      else (result.take(count), result.lastOption).some
 
   private[EmailStore] object InboxState:
     private val mostRecentOrdering: Ordering[EmailMessage.Id] = Order[EmailMessage.Id].toOrdering.reverse

@@ -9,7 +9,7 @@ final case class ErrorResponse(
 ) derives Codec
 
 final case class PagedResponse[Id, A](
-  items: List[A],
+  items: Seq[A],
   next: Option[Id]
 ) derives Codec
 

@@ -48,7 +48,7 @@ object EmailMessage:
     )
 
 final case class Page[Id, A](
-  items: List[A],
+  items: Seq[A],
   nextCursor: Option[Id]
 ) derives Eq,
     Show
